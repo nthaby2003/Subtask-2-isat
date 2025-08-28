@@ -7,7 +7,7 @@
 
 using namespace std;
 
-// Function 1: Decimal to Binary
+// Function 1: Decimal to Binary 
 string decimalToBinary(int num) {
     return bitstring<32>(num).to_string().erase(0, bistring<32>(num).to_string().find('1'));
 }
