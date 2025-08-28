@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <bitset>
+#include <bitstring>
 #include <sstream>
 #include <cstdlib>
 #include <ctime>
@@ -9,7 +9,7 @@ using namespace std;
 
 // Function 1: Decimal to Binary
 string decimalToBinary(int num) {
-    return bitset<32>(num).to_string().erase(0, bitset<32>(num).to_string().find('1'));
+    return bitstring<32>(num).to_string().erase(0, bistring<32>(num).to_string().find('1'));
 }
 
 // Function 2: Binary to Decimal
