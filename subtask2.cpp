@@ -1,38 +1,56 @@
 #include <iostream>
 #include <string>
-#include <bitstring>
 #include <sstream>
 #include <cstdlib>
 #include <ctime>
+#include <algorithm>
 
 using namespace std;
 
-// Function 1: Decimal to Binary 
+// Function 1: Decimal to Binary (manual)
 string decimalToBinary(int num) {
-    return bitstring<32>(num).to_string().erase(0, bistring<32>(num).to_string().find('1'));
+    if (num == 0) return "0";
+    string binary = "";
+    while (num > 0) {
+        binary = char((num % 2) + '0') + binary;
+        num /= 2;
+    }
+    return binary;
 }
 
-// Function 2: Binary to Decimal
+// Function 2: Binary to Decimal (manual)
 int binaryToDecimal(string binary) {
-    return stoi(binary, 0, 2);
+    int decimal = 0;
+    for (char bit : binary) {
+        if (bit != '0' && bit != '1') {
+            cout << "Invalid binary digit: " << bit << endl;
+            return -1; // Indicate error
+        }
+        decimal = decimal * 2 + (bit - '0');
+    }
+    return decimal;
 }
 
-// Function 3: Decimal to Hexadecimal
+// Function 3: Decimal to Hexadecimal (using stringstream)
 string decimalToHex(int num) {
     stringstream ss;
-    ss << hex << num;
+    ss << hex << uppercase << num; // Uppercase for standard hex letters
     return ss.str();
 }
 
 // Function 4: Hexadecimal to Decimal
 int hexToDecimal(string hexStr) {
-    return stoi(hexStr, 0, 16);
+    int num;
+    stringstream ss;
+    ss << std::hex << hexStr;
+    ss >> num;
+    return num;
 }
 
 // Demo function: generate random number 0-99 and convert to binary
 void demo() {
-    srand(time(0));
-    int num = rand() % 100; 
+    srand(static_cast<unsigned>(time(0)));
+    int num = rand() % 100;
     cout << "Random number: " << num << endl;
     cout << "Binary: " << decimalToBinary(num) << endl;
 }
@@ -60,7 +78,9 @@ int main() {
             string binary;
             cout << "Enter Binary: ";
             cin >> binary;
-            cout << "Decimal: " << binaryToDecimal(binary) << endl;
+            int result = binaryToDecimal(binary);
+            if (result != -1)
+                cout << "Decimal: " << result << endl;
         }
         else if (choice == 3) {
             int num;
@@ -72,6 +92,8 @@ int main() {
             string hexStr;
             cout << "Enter Hexadecimal: ";
             cin >> hexStr;
+            // Convert to uppercase to support both cases
+            transform(hexStr.begin(), hexStr.end(), hexStr.begin(), ::toupper);
             cout << "Decimal: " << hexToDecimal(hexStr) << endl;
         }
         else if (choice == 5) {
@@ -87,3 +109,4 @@ int main() {
 
     return 0;
 }
+
